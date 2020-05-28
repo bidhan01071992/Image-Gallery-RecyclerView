@@ -5,3 +5,5 @@ I am creating an android app here which will display some static images from dra
 While tap on an imageview it will pass the object containing Image and Title to another activity using intent.
 
 The model class confroms to Serializable interface.
+
+Searchview is added to search over items in recyclerview
