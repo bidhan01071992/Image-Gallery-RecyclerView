@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -16,11 +18,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements GalleryAdapter.OnPhotoClickListener {
 
     List<Resource> imageList;
+    GalleryAdapter galleryAdapter;
+    RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.galleryRecyclerView);
+        recyclerView = (RecyclerView)findViewById(R.id.galleryRecyclerView);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),2);
 
@@ -49,9 +53,41 @@ public class MainActivity extends AppCompatActivity implements GalleryAdapter.On
         imageList.add(resource9);
         imageList.add(resource10);
 
-        GalleryAdapter galleryAdapter = new GalleryAdapter(imageList,getApplicationContext(), this);
+        galleryAdapter = new GalleryAdapter(imageList,getApplicationContext(), this);
         recyclerView.setAdapter(galleryAdapter);
 
+        SearchView searchView = findViewById(R.id.imageSearch);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.i("query",query);
+                filterWithString(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.i("newText", newText);
+                filterWithString(newText);
+                return false;
+            }
+        });
+    }
+
+    private void filterWithString(String filterString) {
+        List<Resource> filterList = new ArrayList<>();
+        for (Resource resource : imageList) {
+            if(resource.getTitle().toLowerCase().contains(filterString.toLowerCase())) {
+                for (Resource item : filterList) {
+                    if(item.getTitle() == resource.getTitle()) {
+                        break;
+                    }
+                }
+                filterList.add(resource);
+            }
+        }
+        galleryAdapter.setDataToAdapter(filterList);
+        recyclerView.setAdapter(galleryAdapter);
     }
 
     @Override

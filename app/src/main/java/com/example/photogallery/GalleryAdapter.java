@@ -24,6 +24,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
         this.onPhotoClickListener = onPhotoClickListener;
     }
 
+    public void setDataToAdapter(List<Resource> resourceList) {
+       this.resourceList = resourceList;
+    }
+
     @NonNull
     @Override
     public GalleryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

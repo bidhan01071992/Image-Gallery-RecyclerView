@@ -6,9 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical">
-    <androidx.appcompat.widget.SearchView
+    <SearchView
+        android:id="@+id/imageSearch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></androidx.appcompat.widget.SearchView>
+        android:layout_height="wrap_content"
+        android:queryHint="Search Here"
+        android:iconifiedByDefault="false"
+        ></SearchView>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/galleryRecyclerView"
         android:layout_width="match_parent"
